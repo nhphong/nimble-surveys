@@ -1,19 +1,17 @@
 package com.nhphong.nimblesurveys.di
 
-import com.nhphong.nimblesurveys.data.SurveysRepository
-import com.nhphong.nimblesurveys.data.SurveysRepositoryImpl
-import com.nhphong.nimblesurveys.data.gateways.local.DatabaseGateway
-import com.nhphong.nimblesurveys.data.gateways.local.DatabaseGatewayImpl
-import dagger.Binds
+import com.nhphong.nimblesurveys.data.AccessToken
+import com.nhphong.nimblesurveys.data.UserRepository
 import dagger.Module
-import javax.inject.Singleton
+import dagger.Provides
 
-@Module(includes = [UserModule::class])
-interface GlobalModule {
-  @Binds
-  fun databaseGateway(databaseGateway: DatabaseGatewayImpl): DatabaseGateway
-
-  @Binds
-  @Singleton
-  fun surveysRepository(surveysRepository: SurveysRepositoryImpl): SurveysRepository
+@Module
+class GlobalModule {
+  @Provides
+  fun accessToken(userRepository: UserRepository): AccessToken {
+    // The access token is stored in SharedPreferences, so it is quick enough to retrieve from the main thread
+    // We can use blockingGet() here without having to worry about the ANR issue (Application Not Responding)
+    // TODO find a better way!
+    return userRepository.getAccessToken().blockingGet()
+  }
 }

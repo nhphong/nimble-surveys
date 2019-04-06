@@ -4,6 +4,7 @@ import com.nhphong.nimblesurveys.App
 import com.nhphong.nimblesurveys.di.ActivityBindingModule
 import com.nhphong.nimblesurveys.di.GlobalModule
 import com.nhphong.nimblesurveys.di.NetworkModule
+import com.nhphong.nimblesurveys.di.RepositoryModule
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import javax.inject.Singleton
@@ -12,8 +13,9 @@ import javax.inject.Singleton
 @Component(modules = [
   AndroidInjectionModule::class,
   ActivityBindingModule::class,
-  GlobalModule::class,
-  NetworkModule::class
+  RepositoryModule::class,
+  NetworkModule::class,
+  GlobalModule::class
 ])
 interface AppComponent {
   fun inject(app: App)
