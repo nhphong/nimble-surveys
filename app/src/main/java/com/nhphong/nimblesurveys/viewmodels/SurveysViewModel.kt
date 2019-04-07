@@ -5,12 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.nhphong.nimblesurveys.data.Survey
 import com.nhphong.nimblesurveys.data.SurveysRepository
+import com.nhphong.nimblesurveys.utils.Event
 import io.reactivex.Scheduler
 import javax.inject.Inject
 
 abstract class SurveysViewModel : ViewModel() {
-  abstract fun surveys(): LiveData<List<Survey>>
-  abstract fun errorMessages(): LiveData<String>
+  abstract val surveys: LiveData<List<Survey>>
+  abstract val errorMessages: LiveData<Event<String>>
+  abstract val openSurveyEvent: LiveData<Event<String>>
+
+  abstract fun openSurvey(surveyId: String)
 }
 
 class SurveysViewModelImpl @Inject constructor(
@@ -19,19 +23,22 @@ class SurveysViewModelImpl @Inject constructor(
   private val ioScheduler: Scheduler
 ) : SurveysViewModel() {
 
-  private val _surveys: MutableLiveData<List<Survey>> by lazy {
+  override val surveys by lazy {
     MutableLiveData<List<Survey>>().also {
       loadSurveys()
     }
   }
-  private val _errorMessages = MutableLiveData<String>()
 
-  override fun surveys(): LiveData<List<Survey>> {
-    return _surveys
+  override val errorMessages by lazy {
+    MutableLiveData<Event<String>>()
   }
 
-  override fun errorMessages(): LiveData<String> {
-    return _errorMessages
+  override val openSurveyEvent by lazy {
+    MutableLiveData<Event<String>>()
+  }
+
+  override fun openSurvey(surveyId: String) {
+    openSurveyEvent.value = Event(surveyId)
   }
 
   private fun loadSurveys() {
@@ -39,9 +46,9 @@ class SurveysViewModelImpl @Inject constructor(
       .subscribeOn(ioScheduler)
       .observeOn(mainScheduler)
       .subscribe({
-        _surveys.value = it
+        surveys.value = it
       }, {
-        _errorMessages.value = "${it.javaClass.simpleName}(${it.message})"
+        errorMessages.value = Event("${it.javaClass.simpleName}(${it.message})")
       }).let {
         // Ignore
         // We don't need to manually unsubscribe this observer,

@@ -10,24 +10,29 @@ class MainPagerAdapter(
   fragmentManager: FragmentManager
 ): FragmentStatePagerAdapter(fragmentManager) {
 
-  private val pages = List(3) { SurveyFragment() }
-  private val surveys = arrayListOf<Survey>()
-
-  fun refreshData(surveys: List<Survey>) {
-    with(this.surveys) {
-      clear()
-      addAll(surveys)
+  var surveys: List<Survey> = emptyList()
+    set(value) {
+      field = value
+      notifyDataSetChanged()
     }
-    pages.forEachIndexed { i, p ->
-      p.updateSurvey(surveys[i])
+
+  private val availablePages by lazy {
+    List(NUM_AVAILABLE_PAGES) {
+      SurveyFragment()
     }
   }
 
   override fun getItem(position: Int): Fragment {
-    return pages[position]
+    return availablePages[position % NUM_AVAILABLE_PAGES].apply {
+      setSurvey(surveys[position])
+    }
   }
 
   override fun getCount(): Int {
-    return pages.size
+    return surveys.size
+  }
+
+  companion object {
+    const val NUM_AVAILABLE_PAGES = 4
   }
 }
