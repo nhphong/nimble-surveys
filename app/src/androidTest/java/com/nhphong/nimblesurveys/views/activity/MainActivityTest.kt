@@ -25,12 +25,14 @@ import org.junit.Test
 class MainActivityTest {
 
   private val surveys = MutableLiveData<List<Survey>>()
-  private val errorMessages = MutableLiveData<Event<String>>()
+  private val errorMessage = MutableLiveData<Event<String>>()
+  private val internalErrorMessage = MutableLiveData<Event<String>>()
   private val openSurveyEvent = MutableLiveData<Event<String>>()
 
   private val viewModel = mock<SurveysViewModel> {
     on { surveys }.thenReturn(surveys)
-    on { errorMessages }.thenReturn(errorMessages)
+    on { errorMessage }.thenReturn(errorMessage)
+    on { internalErrorMessage }.thenReturn(internalErrorMessage)
     on { openSurveyEvent }.thenReturn(openSurveyEvent)
   }
 
@@ -76,8 +78,8 @@ class MainActivityTest {
   }
 
   @Test
-  fun displayErrorMessages() {
-    errorMessages.postValue(Event("An unexpected error has occurred"))
+  fun displayErrorMessage() {
+    errorMessage.postValue(Event("An unexpected error has occurred"))
     onView(
       allOf(
         withId(com.google.android.material.R.id.snackbar_text),
@@ -97,6 +99,12 @@ class MainActivityTest {
       )
     )
     onView(withText("Details for survey\n#2")).check(matches(isDisplayed()))
+  }
+
+  @Test
+  fun whenThereAreNoSurveys() {
+    surveys.postValue(emptyList())
+    onView(withText("Oops! There are no surveys")).check(matches(isDisplayed()))
   }
 
   private companion object TestData {
