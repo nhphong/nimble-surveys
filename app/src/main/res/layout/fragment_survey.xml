@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <ImageView
+    android:id="@+id/cover_image"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scaleType="centerCrop"
+    tools:src="@drawable/sample_image" />
+
+  <View
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/translucent_black" />
+
+  <TextView
+    android:id="@+id/name"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/normal_margin"
+    android:layout_marginTop="@dimen/top_margin"
+    android:layout_marginEnd="@dimen/normal_margin"
+    android:gravity="center"
+    android:textColor="@color/white"
+    android:textSize="@dimen/title_text_size"
+    android:textStyle="bold"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:text="Octave" />
+
+  <TextView
+    android:id="@+id/description"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_marginStart="@dimen/normal_margin"
+    android:layout_marginTop="@dimen/small_margin"
+    android:layout_marginEnd="@dimen/normal_margin"
+    android:layout_marginBottom="@dimen/normal_margin"
+    android:gravity="center_horizontal"
+    android:scrollbars="vertical"
+    android:textColor="@color/white"
+    android:textSize="@dimen/desc_text_size"
+    app:layout_constraintBottom_toTopOf="@id/take_survey_btn"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/name"
+    tools:text="Marriott Bangkok Sukhumvit Hotel" />
+
+  <TextView
+    android:id="@+id/take_survey_btn"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/bottom_margin"
+    android:background="@drawable/rounded_btn"
+    android:paddingStart="@dimen/big_padding"
+    android:paddingTop="@dimen/normal_padding"
+    android:paddingEnd="@dimen/big_padding"
+    android:paddingBottom="@dimen/normal_padding"
+    android:text="@string/take_the_survey"
+    android:textColor="@color/white"
+    android:textSize="@dimen/desc_text_size"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
