@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.nhphong.nimblesurveys.data.Survey
 import com.nhphong.nimblesurveys.data.SurveysRepository
+import com.nhphong.nimblesurveys.di.IOScheduler
+import com.nhphong.nimblesurveys.di.MainScheduler
 import com.nhphong.nimblesurveys.utils.Event
 import io.reactivex.Scheduler
 import javax.inject.Inject
@@ -19,8 +21,8 @@ abstract class SurveysViewModel : ViewModel() {
 
 class SurveysViewModelImpl @Inject constructor(
   private val surveysRepository: SurveysRepository,
-  private val mainScheduler: Scheduler,
-  private val ioScheduler: Scheduler
+  @MainScheduler private val mainScheduler: Scheduler,
+  @IOScheduler private val ioScheduler: Scheduler
 ) : SurveysViewModel() {
 
   override val surveys by lazy {
