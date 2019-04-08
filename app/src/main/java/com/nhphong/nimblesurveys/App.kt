@@ -1,24 +1,12 @@
 package com.nhphong.nimblesurveys
 
-import android.app.Activity
-import android.app.Application
 import com.nhphong.nimblesurveys.di.scope.DaggerAppComponent
 import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import javax.inject.Inject
+import dagger.android.DaggerApplication
 
-class App : Application(), HasActivityInjector {
+class App : DaggerApplication() {
 
-  @Inject
-  lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
-
-  override fun onCreate() {
-    super.onCreate()
-    DaggerAppComponent.create().inject(this)
-  }
-
-  override fun activityInjector(): AndroidInjector<Activity> {
-    return dispatchingAndroidInjector
+  override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+    return DaggerAppComponent.builder().create(this)
   }
 }

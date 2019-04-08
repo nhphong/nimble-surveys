@@ -2,6 +2,7 @@ package com.nhphong.nimblesurveys.views.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -43,13 +44,19 @@ class MainActivity : AppCompatActivity(), SurveyItemNavigator, HasSupportFragmen
         adapter.surveys = it
       })
 
-      errorMessages.observe(this@MainActivity, EventObserver {
+      errorMessage.observe(this@MainActivity, EventObserver {
         viewPager.showSnackbar(it)
+      })
+
+      internalErrorMessage.observe(this@MainActivity, EventObserver {
+        Log.e("MainActivity", it)
       })
 
       openSurveyEvent.observe(this@MainActivity, EventObserver {
         openSurveyDetails(it)
       })
+
+      loadSurveys()
     }
   }
 

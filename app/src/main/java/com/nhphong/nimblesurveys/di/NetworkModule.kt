@@ -41,12 +41,24 @@ class NetworkModule {
 
   @Provides
   @Singleton
-  fun retrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
+  @WithInterceptor
+  fun retrofitWithInterceptor(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
     return Retrofit.Builder()
       .baseUrl(BuildConfig.BASE_URL)
       .addConverterFactory(GsonConverterFactory.create(gson))
       .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
       .client(okHttpClient)
+      .build()
+  }
+
+  @Provides
+  @Singleton
+  @WithoutInterceptor
+  fun retrofit(gson: Gson): Retrofit {
+    return Retrofit.Builder()
+      .baseUrl(BuildConfig.BASE_URL)
+      .addConverterFactory(GsonConverterFactory.create(gson))
+      .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
       .build()
   }
 }

@@ -1,27 +1,20 @@
 package com.nhphong.nimblesurveys.di
 
 import android.app.Activity
-import com.nhphong.nimblesurveys.data.SurveysRepository
 import com.nhphong.nimblesurveys.di.scope.ActivityScope
 import com.nhphong.nimblesurveys.viewmodels.SurveysViewModel
 import com.nhphong.nimblesurveys.viewmodels.SurveysViewModelImpl
 import com.nhphong.nimblesurveys.views.activity.MainActivity
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 @Module
-class MainActivityModule {
-  @Provides
+interface MainActivityModule {
+  @Binds
   @ActivityScope
-  fun surveysViewModel(surveysRepository: SurveysRepository): SurveysViewModel {
-    return SurveysViewModelImpl(surveysRepository, AndroidSchedulers.mainThread(), Schedulers.io())
-  }
+  fun surveysViewModel(surveysViewModel: SurveysViewModelImpl): SurveysViewModel
 
-  @Provides
+  @Binds
   @ActivityScope
-  fun activity(activity: MainActivity): Activity {
-    return activity
-  }
+  fun activity(activity: MainActivity): Activity
 }
