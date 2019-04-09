@@ -32,9 +32,11 @@ class UserRepositoryImpl @Inject constructor(
 
   override fun renewAccessToken(): Single<AccessToken> {
     return apiGateway.renewAccessToken()
-      .doOnSuccess {
+      .flatMap {
         // Update Access Token in the local storage
         sharedPreferencesGateway.saveAccessToken(it)
+          .toSingleDefault(it)
+          .onErrorReturnItem(it)
       }
   }
 }
