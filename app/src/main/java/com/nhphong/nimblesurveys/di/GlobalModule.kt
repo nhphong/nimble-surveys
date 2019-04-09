@@ -4,6 +4,8 @@ import android.content.Context
 import com.nhphong.nimblesurveys.App
 import com.nhphong.nimblesurveys.data.AccessToken
 import com.nhphong.nimblesurveys.data.UserRepository
+import com.nhphong.nimblesurveys.utils.StringResProvider
+import com.nhphong.nimblesurveys.utils.StringResProviderImpl
 import dagger.Module
 import dagger.Provides
 import io.reactivex.Scheduler
@@ -38,5 +40,10 @@ class GlobalModule {
   @ApplicationContext
   fun applicationContext(app: App): Context {
     return app
+  }
+
+  @Provides
+  fun stringResProvider(@ApplicationContext context: Context): StringResProvider {
+    return StringResProviderImpl(context.resources)
   }
 }

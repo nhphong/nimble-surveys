@@ -5,4 +5,5 @@
   <string name="details_for_survey">Details for survey\n#%s</string>
   <string name="question_marks">\???</string>
   <string name="no_surveys">Oops! There are no surveys</string>
+  <string name="fetching_surveys">Fetching surveys…</string>
 </resources>

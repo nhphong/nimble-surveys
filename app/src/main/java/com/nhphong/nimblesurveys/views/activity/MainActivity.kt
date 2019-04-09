@@ -18,6 +18,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.message_text_view as messageTextView
 import javax.inject.Inject
 import kotlinx.android.synthetic.main.activity_main.view_pager as viewPager
 
@@ -42,6 +43,10 @@ class MainActivity : AppCompatActivity(), SurveyItemNavigator, HasSupportFragmen
     with(surveysViewModel) {
       surveys.observe(this@MainActivity, Observer {
         adapter.surveys = it
+      })
+
+      message.observe(this@MainActivity, Observer {
+        messageTextView.text = it
       })
 
       errorMessage.observe(this@MainActivity, EventObserver {

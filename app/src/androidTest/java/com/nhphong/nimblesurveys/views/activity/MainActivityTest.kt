@@ -25,12 +25,14 @@ import org.junit.Test
 class MainActivityTest {
 
   private val surveys = MutableLiveData<List<Survey>>()
+  private val message = MutableLiveData<String>()
   private val errorMessage = MutableLiveData<Event<String>>()
   private val internalErrorMessage = MutableLiveData<Event<String>>()
   private val openSurveyEvent = MutableLiveData<Event<String>>()
 
   private val viewModel = mock<SurveysViewModel> {
     on { surveys }.thenReturn(surveys)
+    on { message }.thenReturn(message)
     on { errorMessage }.thenReturn(errorMessage)
     on { internalErrorMessage }.thenReturn(internalErrorMessage)
     on { openSurveyEvent }.thenReturn(openSurveyEvent)
@@ -102,9 +104,11 @@ class MainActivityTest {
   }
 
   @Test
-  fun whenThereAreNoSurveys() {
+  fun noSurveysMessage() {
+    message.postValue("Oops! There are no surveys")
     surveys.postValue(emptyList())
-    onView(withText("Oops! There are no surveys")).check(matches(isDisplayed()))
+    onView(withText("Oops! There are no surveys"))
+      .check(matches(isDisplayed()))
   }
 
   private companion object TestData {
