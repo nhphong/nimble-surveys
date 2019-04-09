@@ -32,15 +32,13 @@ class MainActivity : AppCompatActivity(), SurveyItemNavigator, HasSupportFragmen
   @Inject
   lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
-  private lateinit var adapter: MainPagerAdapter
-
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     AndroidInjection.inject(this)
     setContentView(R.layout.activity_main)
     setupActionBar()
 
-    adapter = MainPagerAdapter(supportFragmentManager).also {
+    val adapter = MainPagerAdapter(supportFragmentManager).also {
       viewPager.adapter = it
     }
 

@@ -1,15 +1,16 @@
 package com.nhphong.nimblesurveys.views.activity
 
+import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.swipeLeft
-import androidx.test.espresso.action.ViewActions.swipeRight
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
 import com.nhphong.nimblesurveys.R
 import com.nhphong.nimblesurveys.data.Survey
 import com.nhphong.nimblesurveys.matchers.viewPagerWithId
@@ -49,7 +50,7 @@ class MainActivityTest {
   }
 
   @Test
-  fun displayUIProperly() {
+  fun displaySurveysProperly() {
     val viewPager = viewPagerWithId(R.id.view_pager)
     val currentPage = allOf(withParent(viewPager), isDisplayed())
 
@@ -80,14 +81,58 @@ class MainActivityTest {
   }
 
   @Test
-  fun displayErrorMessage() {
+  fun displayToolbarProperly() {
+    onView(
+      allOf(
+        isAssignableFrom(TextView::class.java),
+        withParent(withId(R.id.toolbar))
+      )
+    ).check(matches(withText("SURVEYS")))
+
+    onView(
+      allOf(
+        withId(R.id.reload_button),
+        withParent(withId(R.id.toolbar))
+      )
+    ).check(matches(isDisplayed()))
+
+    onView(
+      allOf(
+        withId(R.id.menu_button),
+        withParent(withId(R.id.toolbar))
+      )
+    ).check(matches(isDisplayed()))
+  }
+
+  @Test
+  fun displaySnackBarMessage() {
     snackBarMessage.postValue(Event("An unexpected error has occurred"))
     onView(
       allOf(
-        withId(com.google.android.material.R.id.snackbar_text),
+        withId(R.id.snackbar_text),
         withText("An unexpected error has occurred")
       )
     ).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+  }
+
+  @Test
+  fun noSurveysMessage() {
+    message.postValue("Oops! There are no surveys")
+    surveys.postValue(emptyList())
+    onView(withText("Oops! There are no surveys"))
+      .check(matches(isDisplayed()))
+  }
+
+  @Test
+  fun clickOnReloadButton() {
+    onView(
+      allOf(
+        withId(R.id.reload_button),
+        withParent(withId(R.id.toolbar))
+      )
+    ).perform(click())
+
+    verify(viewModel).reloadSurveys()
   }
 
   @Test
@@ -101,14 +146,6 @@ class MainActivityTest {
       )
     )
     onView(withText("Details for survey\n#2")).check(matches(isDisplayed()))
-  }
-
-  @Test
-  fun noSurveysMessage() {
-    message.postValue("Oops! There are no surveys")
-    surveys.postValue(emptyList())
-    onView(withText("Oops! There are no surveys"))
-      .check(matches(isDisplayed()))
   }
 
   private companion object TestData {
