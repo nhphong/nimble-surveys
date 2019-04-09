@@ -10,12 +10,14 @@
     android:id="@+id/toolbar"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
+    android:background="@color/toolbar"
     android:title="@string/app_name"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />
 
   <TextView
+    android:id="@+id/message_text_view"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/normal_margin"
@@ -23,11 +25,11 @@
     android:gravity="center"
     android:textSize="@dimen/title_text_size"
     android:textStyle="bold"
+    app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/toolbar"
-    app:layout_constraintBottom_toBottomOf="parent"
-    android:text="@string/no_surveys" />
+    tools:text="@string/no_surveys" />
 
   <androidx.viewpager.widget.ViewPager
     android:id="@+id/view_pager"
@@ -36,6 +38,12 @@
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+  <View
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbar_shadow_height"
+    android:background="@drawable/toolbar_shadow"
     app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

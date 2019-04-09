@@ -22,7 +22,7 @@ interface AccessTokenApi {
   companion object {
     const val DEFAULT_GRANT_TYPE = "password"
     const val DEFAULT_USERNAME = "carlos@nimbl3.com"
-    //TODO encrypt the following sensitive data
+    //TODO encrypt the following sensitive data, or save it to a private local storage (SharedPreferences)
     const val DEFAULT_PASSWORD = "antikera"
   }
 }
