@@ -1,22 +1,20 @@
 package com.nhphong.nimblesurveys.data.api
 
 import com.nhphong.nimblesurveys.data.AccessToken
+import com.nhphong.nimblesurveys.data.Credentials
 import io.reactivex.Observable
+import retrofit2.http.Body
 import retrofit2.http.POST
-import retrofit2.http.Query
 
 interface AccessTokenApi {
 
   @POST("oauth/token")
   fun renewAccessToken(
-    @Query("grant_type")
-    grantType: String = DEFAULT_GRANT_TYPE,
-
-    @Query("username")
-    userName: String = DEFAULT_USERNAME,
-
-    @Query("password")
-    password: String = DEFAULT_PASSWORD
+    @Body credentials: Credentials = Credentials(
+      grantType = DEFAULT_GRANT_TYPE,
+      userName = DEFAULT_USERNAME,
+      password = DEFAULT_PASSWORD
+    )
   ): Observable<AccessToken>
 
   companion object {
