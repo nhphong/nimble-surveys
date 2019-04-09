@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.nhphong.nimblesurveys.R
@@ -18,9 +19,11 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.message_text_view as messageTextView
 import javax.inject.Inject
+import kotlinx.android.synthetic.main.activity_main.message_text_view as messageTextView
 import kotlinx.android.synthetic.main.activity_main.view_pager as viewPager
+import kotlinx.android.synthetic.main.toolbar.reload_button as reloadButton
+import kotlinx.android.synthetic.main.toolbar.toolbar_title as toolbarTitle
 
 class MainActivity : AppCompatActivity(), SurveyItemNavigator, HasSupportFragmentInjector {
 
@@ -35,7 +38,8 @@ class MainActivity : AppCompatActivity(), SurveyItemNavigator, HasSupportFragmen
     super.onCreate(savedInstanceState)
     AndroidInjection.inject(this)
     setContentView(R.layout.activity_main)
-    setSupportActionBar(toolbar)
+    setupActionBar()
+
     adapter = MainPagerAdapter(supportFragmentManager).also {
       viewPager.adapter = it
     }
@@ -49,7 +53,7 @@ class MainActivity : AppCompatActivity(), SurveyItemNavigator, HasSupportFragmen
         messageTextView.text = it
       })
 
-      errorMessage.observe(this@MainActivity, EventObserver {
+      snackBarMessage.observe(this@MainActivity, EventObserver {
         viewPager.showSnackbar(it)
       })
 
@@ -63,6 +67,13 @@ class MainActivity : AppCompatActivity(), SurveyItemNavigator, HasSupportFragmen
 
       loadSurveys()
     }
+  }
+
+  private fun setupActionBar() {
+    setSupportActionBar(toolbar as Toolbar)
+    supportActionBar?.setDisplayShowTitleEnabled(false)
+    toolbarTitle.text = getString(R.string.surveys_title)
+    reloadButton.setOnClickListener { surveysViewModel.reloadSurveys() }
   }
 
   override fun openSurveyDetails(surveyId: String) {

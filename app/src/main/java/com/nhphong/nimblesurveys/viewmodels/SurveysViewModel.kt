@@ -16,12 +16,13 @@ import javax.inject.Inject
 abstract class SurveysViewModel : ViewModel() {
   abstract val surveys: LiveData<List<Survey>>
   abstract val message: LiveData<String>
-  abstract val errorMessage: LiveData<Event<String>>
+  abstract val snackBarMessage: LiveData<Event<String>>
   abstract val internalErrorMessage: LiveData<Event<String>>
   abstract val openSurveyEvent: LiveData<Event<String>>
 
   abstract fun openSurvey(surveyId: String)
   abstract fun loadSurveys()
+  abstract fun reloadSurveys()
 }
 
 class SurveysViewModelImpl @Inject constructor(
@@ -33,7 +34,7 @@ class SurveysViewModelImpl @Inject constructor(
 
   override val surveys = MutableLiveData<List<Survey>>()
   override val message = MutableLiveData<String>()
-  override val errorMessage = MutableLiveData<Event<String>>()
+  override val snackBarMessage = MutableLiveData<Event<String>>()
   override val internalErrorMessage = MutableLiveData<Event<String>>()
   override val openSurveyEvent = MutableLiveData<Event<String>>()
 
@@ -49,6 +50,11 @@ class SurveysViewModelImpl @Inject constructor(
     fetchSurveysFromRemoteServer()
   }
 
+  override fun reloadSurveys() {
+    snackBarMessage.value = Event(stringResProvider.fetchingSurveys)
+    fetchSurveysFromRemoteServer()
+  }
+
   private fun loadSurveysFromDB() {
     surveysRepository.loadSurveysFromDB()
       .subscribeOn(ioScheduler)
@@ -56,7 +62,7 @@ class SurveysViewModelImpl @Inject constructor(
       .subscribe({
         surveys.value = it
       }, {
-        errorMessage.value = Event(it.fullMessage())
+        snackBarMessage.value = Event(it.fullMessage())
       })
       .let {
         // Ignored
@@ -79,7 +85,7 @@ class SurveysViewModelImpl @Inject constructor(
         message.value = if (it.isEmpty()) stringResProvider.noSurveysMessage else ""
       }, {
         message.value = it.fullMessage()
-        errorMessage.value = Event(it.fullMessage())
+        snackBarMessage.value = Event(it.fullMessage())
       })
       .let {
         // Ignored

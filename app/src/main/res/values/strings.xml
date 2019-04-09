@@ -6,4 +6,6 @@
   <string name="question_marks">\???</string>
   <string name="no_surveys">Oops! There are no surveys</string>
   <string name="fetching_surveys">Fetching surveys…</string>
+  <string name="surveys_title">SURVEYS</string>
+  <string name="survey_details_title">SURVEY DETAILS</string>
 </resources>

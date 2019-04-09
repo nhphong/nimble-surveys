@@ -26,14 +26,14 @@ class MainActivityTest {
 
   private val surveys = MutableLiveData<List<Survey>>()
   private val message = MutableLiveData<String>()
-  private val errorMessage = MutableLiveData<Event<String>>()
+  private val snackBarMessage = MutableLiveData<Event<String>>()
   private val internalErrorMessage = MutableLiveData<Event<String>>()
   private val openSurveyEvent = MutableLiveData<Event<String>>()
 
   private val viewModel = mock<SurveysViewModel> {
     on { surveys }.thenReturn(surveys)
     on { message }.thenReturn(message)
-    on { errorMessage }.thenReturn(errorMessage)
+    on { snackBarMessage }.thenReturn(snackBarMessage)
     on { internalErrorMessage }.thenReturn(internalErrorMessage)
     on { openSurveyEvent }.thenReturn(openSurveyEvent)
   }
@@ -81,7 +81,7 @@ class MainActivityTest {
 
   @Test
   fun displayErrorMessage() {
-    errorMessage.postValue(Event("An unexpected error has occurred"))
+    snackBarMessage.postValue(Event("An unexpected error has occurred"))
     onView(
       allOf(
         withId(com.google.android.material.R.id.snackbar_text),
