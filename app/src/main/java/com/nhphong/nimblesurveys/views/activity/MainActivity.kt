@@ -7,12 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.nhphong.nimblesurveys.R
 import com.nhphong.nimblesurveys.navigators.SurveyItemNavigator
 import com.nhphong.nimblesurveys.utils.EventObserver
 import com.nhphong.nimblesurveys.utils.showSnackbar
 import com.nhphong.nimblesurveys.viewmodels.SurveysViewModel
 import com.nhphong.nimblesurveys.views.activity.SurveyDetailActivity.Companion.EXTRA_SURVEY_ID
+import com.nhphong.nimblesurveys.views.adapter.BulletsAdapter
 import com.nhphong.nimblesurveys.views.adapter.MainPagerAdapter
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
@@ -38,13 +41,19 @@ class MainActivity : AppCompatActivity(), SurveyItemNavigator, HasSupportFragmen
     setContentView(R.layout.activity_main)
     setupActionBar()
 
-    val adapter = MainPagerAdapter(supportFragmentManager).also {
-      viewPager.adapter = it
+    val pagerAdapter = MainPagerAdapter(supportFragmentManager)
+    viewPager.adapter = pagerAdapter
+
+    with(bullets) {
+      layoutManager = LinearLayoutManager(this@MainActivity, VERTICAL, false)
+      adapter = BulletsAdapter().apply {
+        syncWithViewPager(viewPager, this@with)
+      }
     }
 
     with(surveysViewModel) {
       surveys.observe(this@MainActivity, Observer {
-        adapter.surveys = it
+        pagerAdapter.surveys = it
       })
 
       message.observe(this@MainActivity, Observer {

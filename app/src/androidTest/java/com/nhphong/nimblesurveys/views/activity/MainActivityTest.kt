@@ -3,7 +3,8 @@ package com.nhphong.nimblesurveys.views.activity
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
@@ -13,15 +14,18 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhphong.nimblesurveys.R
 import com.nhphong.nimblesurveys.data.Survey
+import com.nhphong.nimblesurveys.helpers.waitUntil
+import com.nhphong.nimblesurveys.matchers.recyclerViewHasItemCount
+import com.nhphong.nimblesurveys.matchers.recyclerViewWithId
 import com.nhphong.nimblesurveys.matchers.viewPagerWithId
 import com.nhphong.nimblesurveys.rules.InjectedActivityTestRule
 import com.nhphong.nimblesurveys.utils.Event
 import com.nhphong.nimblesurveys.viewmodels.SurveysViewModel
-import org.hamcrest.Matchers.allOf
-import org.hamcrest.Matchers.containsString
+import org.hamcrest.Matchers.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.util.concurrent.Callable
 
 class MainActivityTest {
 
@@ -76,8 +80,19 @@ class MainActivityTest {
       )
     ).check(matches(withText("Take the survey")))
 
-    onView(isRoot()).perform(swipeLeft(), swipeLeft(), swipeRight())
-    onView(withText("East Agile")).check(matches(isDisplayed()))
+    onView(viewPager).perform(swipeUp())
+
+    waitUntil("the page finished scrolling", Callable {
+      onView(withText("East Agile")).check(matches(isDisplayed()))
+      true
+    }, 1500)
+
+    onView(viewPager).perform(swipeUp())
+
+    waitUntil("the page finished scrolling", Callable {
+      onView(withText("Grab")).check(matches(isDisplayed()))
+      true
+    }, 1500)
   }
 
   @Test
@@ -102,6 +117,38 @@ class MainActivityTest {
         withParent(withId(R.id.toolbar))
       )
     ).check(matches(isDisplayed()))
+  }
+
+  @Test
+  fun displayIndicatorListProperly() {
+    val bullets = recyclerViewWithId(R.id.bullets)
+    onView(bullets).check(recyclerViewHasItemCount(3))
+
+    // First bullet is selected
+    onView(allOf(withParent(bullets), withParentIndex(0)))
+      .check(matches(isSelected()))
+    // Second and third bullets are NOT selected
+    onView(allOf(withParent(bullets), withParentIndex(1)))
+      .check(matches(not(isSelected())))
+    onView(allOf(withParent(bullets), withParentIndex(2)))
+      .check(matches(not(isSelected())))
+
+    // Scroll to the third page
+    onView(viewPagerWithId(R.id.view_pager)).perform(swipeUp(), swipeUp())
+    waitUntil("the page finished scrolling", Callable {
+      onView(withText("Grab")).check(matches(isDisplayed()))
+      true
+    }, 2000)
+
+    // First and second bullets are now NOT selected
+    onView(allOf(withParent(bullets), withParentIndex(0)))
+      .check(matches(not(isSelected())))
+    onView(allOf(withParent(bullets), withParentIndex(1)))
+      .check(matches(not(isSelected())))
+
+    // Third bullet is selected
+    onView(allOf(withParent(bullets), withParentIndex(2)))
+      .check(matches(isSelected()))
   }
 
   @Test
@@ -137,7 +184,7 @@ class MainActivityTest {
 
   @Test
   fun clickOnTakeTheSurveyButton() {
-    onView(isRoot()).perform(swipeLeft())
+    onView(viewPagerWithId(R.id.view_pager)).perform(swipeUp())
     openSurveyEvent.postValue(Event("2"))
     Intents.intended(
       allOf(

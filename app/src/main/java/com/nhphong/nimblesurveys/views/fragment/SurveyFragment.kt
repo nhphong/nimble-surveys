@@ -50,12 +50,6 @@ class SurveyFragment : Fragment(), View.OnClickListener {
     }
   }
 
-  fun setSurvey(survey: Survey) {
-    arguments = Bundle().apply {
-      putParcelable(EXTRA_ARG_SURVEY, survey)
-    }
-  }
-
   private fun renderUI(view: View?, survey: Survey?) {
     if (view != null && activity?.isFinishing == false && isAdded) {
       view.name.text = survey?.name ?: ""
@@ -71,5 +65,13 @@ class SurveyFragment : Fragment(), View.OnClickListener {
 
   companion object {
     const val EXTRA_ARG_SURVEY = "survey"
+
+    fun newInstance(survey: Survey): SurveyFragment {
+      return SurveyFragment().apply {
+        arguments = Bundle().apply {
+          putParcelable(EXTRA_ARG_SURVEY, survey)
+        }
+      }
+    }
   }
 }
