@@ -30,7 +30,7 @@
     app:layout_constraintTop_toBottomOf="@id/toolbar"
     tools:text="@string/no_surveys" />
 
-  <androidx.viewpager.widget.ViewPager
+  <com.nhphong.nimblesurveys.views.customview.VerticalViewPager
     android:id="@+id/view_pager"
     android:layout_width="0dp"
     android:layout_height="0dp"
@@ -39,9 +39,20 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
+  <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/bullets"
+    android:layout_width="wrap_content"
+    android:layout_height="0dp"
+    android:layout_marginTop="@dimen/bullets_top_margin"
+    android:layout_marginBottom="@dimen/bullets_bottom_margin"
+    android:layout_marginEnd="@dimen/xsmall_margin"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
   <View
     android:layout_width="match_parent"
-    android:layout_height="@dimen/toolbar_shadow_height"
+    android:layout_height="@dimen/shadow_height"
     android:background="@drawable/toolbar_shadow"
     app:layout_constraintTop_toBottomOf="@id/toolbar" />
 

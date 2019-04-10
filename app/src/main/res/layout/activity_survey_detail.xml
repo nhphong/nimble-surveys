@@ -30,7 +30,7 @@
 
   <View
     android:layout_width="match_parent"
-    android:layout_height="@dimen/toolbar_shadow_height"
+    android:layout_height="@dimen/shadow_height"
     android:background="@drawable/toolbar_shadow"
     app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
