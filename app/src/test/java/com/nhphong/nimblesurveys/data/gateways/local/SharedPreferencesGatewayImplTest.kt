@@ -40,10 +40,10 @@ class SharedPreferencesGatewayImplTest {
 
     val expectedJson = """
       {
-          "data": "token-data",
-          "type": "bearer",
-          "expiresIn": 7200,
-          "createdAt": 1485174186
+          "access_token": "token-data",
+          "token_type": "bearer",
+          "expires_in": 7200,
+          "created_at": 1485174186
       }
       """
     val actualJson = preferences.getString(ACCESS_TOKEN, "")

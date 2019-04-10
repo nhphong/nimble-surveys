@@ -6,6 +6,7 @@ import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import com.nhphong.nimblesurveys.data.gateways.external.FreeApiGateway
 import com.nhphong.nimblesurveys.data.gateways.local.SharedPreferencesGateway
+import io.reactivex.Completable
 import io.reactivex.Single
 import org.junit.Test
 
@@ -41,6 +42,7 @@ class UserRepositoryImplTest {
   fun renewAccessToken() {
     val newToken = AccessToken()
     doReturn(Single.just(newToken)).whenever(apiGateway).renewAccessToken()
+    doReturn(Completable.complete()).whenever(sharedPreferencesGateway).saveAccessToken(newToken)
 
     repository.renewAccessToken()
       .test()
