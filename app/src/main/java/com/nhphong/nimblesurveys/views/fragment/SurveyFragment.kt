@@ -55,8 +55,14 @@ class SurveyFragment : Fragment(), View.OnClickListener {
       view.name.text = survey?.name ?: ""
       view.description.text = survey?.description ?: ""
 
+      val imageUrl = survey?.coverImageUrl ?: ""
+      var hdImageUrl = ""
+      if (imageUrl.isNotEmpty()) {
+        hdImageUrl = "${imageUrl}l"
+      }
+
       GlideApp.with(this)
-        .load(survey?.coverImageUrl ?: "")
+        .load(hdImageUrl)
         .placeholder(R.color.white)
         .centerCrop()
         .into(view.coverImage)
