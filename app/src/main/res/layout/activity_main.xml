@@ -16,14 +16,10 @@
     app:layout_constraintTop_toTopOf="parent" />
 
   <TextView
-    android:id="@+id/message_text_view"
+    android:id="@+id/message"
+    style="@style/Title.Top"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/normal_margin"
-    android:layout_marginEnd="@dimen/normal_margin"
-    android:gravity="center"
-    android:textSize="@dimen/title_text_size"
-    android:textStyle="bold"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +27,7 @@
     tools:text="@string/no_surveys" />
 
   <com.nhphong.nimblesurveys.views.customview.VerticalViewPager
-    android:id="@+id/view_pager"
+    android:id="@+id/viewPager"
     android:layout_width="0dp"
     android:layout_height="0dp"
     app:layout_constraintBottom_toBottomOf="parent"
@@ -44,8 +40,8 @@
     android:layout_width="wrap_content"
     android:layout_height="0dp"
     android:layout_marginTop="@dimen/bullets_top_margin"
-    android:layout_marginBottom="@dimen/bullets_bottom_margin"
     android:layout_marginEnd="@dimen/xsmall_margin"
+    android:layout_marginBottom="@dimen/bullets_bottom_margin"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toBottomOf="@id/toolbar" />

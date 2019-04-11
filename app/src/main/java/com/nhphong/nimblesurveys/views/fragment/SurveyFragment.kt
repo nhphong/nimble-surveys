@@ -1,6 +1,5 @@
 package com.nhphong.nimblesurveys.views.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
@@ -14,8 +13,6 @@ import com.nhphong.nimblesurveys.viewmodels.SurveysViewModel
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_survey.view.*
 import javax.inject.Inject
-import kotlinx.android.synthetic.main.fragment_survey.view.cover_image as coverImage
-import kotlinx.android.synthetic.main.fragment_survey.view.take_survey_btn as takeSurveyBtn
 
 class SurveyFragment : Fragment(), View.OnClickListener {
 
@@ -26,12 +23,9 @@ class SurveyFragment : Fragment(), View.OnClickListener {
   private val _survey: Survey?
     get() = arguments?.getParcelable(EXTRA_ARG_SURVEY)
 
-  override fun onAttach(context: Context) {
-    super.onAttach(context)
-    AndroidSupportInjection.inject(this)
-  }
-
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    AndroidSupportInjection.inject(this)
+
     if (_view == null) {
       _view = inflater.inflate(R.layout.fragment_survey, container, false).apply {
         description.movementMethod = ScrollingMovementMethod()

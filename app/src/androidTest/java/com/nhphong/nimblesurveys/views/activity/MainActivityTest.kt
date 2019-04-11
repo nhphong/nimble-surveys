@@ -1,10 +1,11 @@
 package com.nhphong.nimblesurveys.views.activity
 
+import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
@@ -15,6 +16,7 @@ import com.nhaarman.mockito_kotlin.verify
 import com.nhphong.nimblesurveys.R
 import com.nhphong.nimblesurveys.data.Survey
 import com.nhphong.nimblesurveys.helpers.waitUntil
+import com.nhphong.nimblesurveys.matchers.customSwipeUp
 import com.nhphong.nimblesurveys.matchers.recyclerViewHasItemCount
 import com.nhphong.nimblesurveys.matchers.recyclerViewWithId
 import com.nhphong.nimblesurveys.matchers.viewPagerWithId
@@ -80,19 +82,19 @@ class MainActivityTest {
       )
     ).check(matches(withText("Take the survey")))
 
-    onView(viewPager).perform(swipeUp())
+    onView(viewPager).perform(customSwipeUp())
 
     waitUntil("the page finished scrolling", Callable {
       onView(withText("East Agile")).check(matches(isDisplayed()))
       true
-    }, 1500)
+    }, 2000)
 
-    onView(viewPager).perform(swipeUp())
+    onView(viewPager).perform(customSwipeUp())
 
     waitUntil("the page finished scrolling", Callable {
       onView(withText("Grab")).check(matches(isDisplayed()))
       true
-    }, 1500)
+    }, 2000)
   }
 
   @Test
@@ -134,7 +136,7 @@ class MainActivityTest {
       .check(matches(not(isSelected())))
 
     // Scroll to the third page
-    onView(viewPagerWithId(R.id.view_pager)).perform(swipeUp(), swipeUp())
+    onView(viewPagerWithId(R.id.view_pager)).perform(customSwipeUp(), customSwipeUp())
     waitUntil("the page finished scrolling", Callable {
       onView(withText("Grab")).check(matches(isDisplayed()))
       true
@@ -184,7 +186,7 @@ class MainActivityTest {
 
   @Test
   fun clickOnTakeTheSurveyButton() {
-    onView(viewPagerWithId(R.id.view_pager)).perform(swipeUp())
+    onView(viewPagerWithId(R.id.view_pager)).perform(customSwipeUp())
     openSurveyEvent.postValue(Event("2"))
     Intents.intended(
       allOf(
@@ -193,6 +195,39 @@ class MainActivityTest {
       )
     )
     onView(withText("Details for survey\n#2")).check(matches(isDisplayed()))
+  }
+
+  @Test
+  fun orientationChanges() {
+    val bullets = recyclerViewWithId(R.id.bullets)
+    onView(viewPagerWithId(R.id.view_pager)).perform(customSwipeUp())
+
+    waitUntil("the page finished scrolling", Callable {
+      // Second bullet is now selected
+      onView(
+        allOf(
+          withParent(bullets),
+          withParentIndex(1)
+        )
+      ).check(matches(isSelected()))
+      true
+    }, 2000)
+
+    // Change the orientation
+    rule.activity.requestedOrientation = SCREEN_ORIENTATION_LANDSCAPE
+    waitUntil("the orientation completes changing", Callable {
+      // Second bullet is still selected
+      onView(
+        allOf(
+          withParent(bullets),
+          withParentIndex(1)
+        )
+      ).check(matches(isSelected()))
+      true
+    }, 2000)
+
+    // Restore the orientation
+    rule.activity.requestedOrientation = SCREEN_ORIENTATION_PORTRAIT
   }
 
   private companion object TestData {

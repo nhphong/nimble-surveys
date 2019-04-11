@@ -3,12 +3,13 @@ package com.nhphong.nimblesurveys.views.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 import com.nhphong.nimblesurveys.data.Survey
 import com.nhphong.nimblesurveys.views.fragment.SurveyFragment
 
 class MainPagerAdapter(
   fragmentManager: FragmentManager
-) : FragmentPagerAdapter(fragmentManager) {
+) : FragmentStatePagerAdapter(fragmentManager) {
 
   var surveys: List<Survey> = emptyList()
     set(value) {

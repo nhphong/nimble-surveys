@@ -22,11 +22,8 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
-import kotlinx.android.synthetic.main.activity_main.message_text_view as messageTextView
-import kotlinx.android.synthetic.main.activity_main.view_pager as viewPager
-import kotlinx.android.synthetic.main.toolbar.reload_button as reloadButton
-import kotlinx.android.synthetic.main.toolbar.toolbar_title as toolbarTitle
 
 class MainActivity : AppCompatActivity(), SurveyItemNavigator, HasSupportFragmentInjector {
 
@@ -54,10 +51,15 @@ class MainActivity : AppCompatActivity(), SurveyItemNavigator, HasSupportFragmen
     with(surveysViewModel) {
       surveys.observe(this@MainActivity, Observer {
         pagerAdapter.surveys = it
+        val previousPage = savedInstanceState?.getInt(EXTRA_CURRENT_PAGE, -1) ?: -1
+        if (previousPage != -1) {
+          viewPager.currentItem = previousPage
+          savedInstanceState?.clear()
+        }
       })
 
       message.observe(this@MainActivity, Observer {
-        messageTextView.text = it
+        this@MainActivity.message.text = it
       })
 
       snackBarMessage.observe(this@MainActivity, EventObserver {
@@ -74,6 +76,11 @@ class MainActivity : AppCompatActivity(), SurveyItemNavigator, HasSupportFragmen
 
       loadSurveys()
     }
+  }
+
+  override fun onSaveInstanceState(outState: Bundle) {
+    super.onSaveInstanceState(outState)
+    outState.putInt(EXTRA_CURRENT_PAGE, viewPager.currentItem)
   }
 
   private fun setupActionBar() {
@@ -94,5 +101,9 @@ class MainActivity : AppCompatActivity(), SurveyItemNavigator, HasSupportFragmen
       return dispatchingAndroidInjector
     }
     return AndroidInjector { }
+  }
+
+  private companion object {
+    const val EXTRA_CURRENT_PAGE = "current page"
   }
 }

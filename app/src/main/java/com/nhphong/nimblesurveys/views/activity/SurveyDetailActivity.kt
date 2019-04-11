@@ -7,9 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.nhphong.nimblesurveys.R
 import kotlinx.android.synthetic.main.activity_survey_detail.*
-import kotlinx.android.synthetic.main.toolbar.menu_button as menuButton
-import kotlinx.android.synthetic.main.toolbar.reload_button as reloadButton
-import kotlinx.android.synthetic.main.toolbar.toolbar_title as toolbarTitle
+import kotlinx.android.synthetic.main.toolbar.*
 
 class SurveyDetailActivity : AppCompatActivity() {
 

@@ -6,7 +6,7 @@
   android:layout_height="match_parent">
 
   <ImageView
-    android:id="@+id/cover_image"
+    android:id="@+id/coverImage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scaleType="centerCrop"
@@ -19,15 +19,9 @@
 
   <TextView
     android:id="@+id/name"
+    style="@style/Title.White"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/normal_margin"
-    android:layout_marginTop="@dimen/top_margin"
-    android:layout_marginEnd="@dimen/normal_margin"
-    android:gravity="center"
-    android:textColor="@color/white"
-    android:textSize="@dimen/title_text_size"
-    android:textStyle="bold"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
@@ -35,35 +29,21 @@
 
   <TextView
     android:id="@+id/description"
+    style="@style/Description"
     android:layout_width="0dp"
     android:layout_height="0dp"
-    android:layout_marginStart="@dimen/normal_margin"
-    android:layout_marginTop="@dimen/small_margin"
-    android:layout_marginEnd="@dimen/normal_margin"
-    android:layout_marginBottom="@dimen/normal_margin"
-    android:gravity="center_horizontal"
-    android:scrollbars="vertical"
-    android:textColor="@color/white"
-    android:textSize="@dimen/desc_text_size"
-    app:layout_constraintBottom_toTopOf="@id/take_survey_btn"
+    app:layout_constraintBottom_toTopOf="@id/takeSurveyBtn"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/name"
     tools:text="Marriott Bangkok Sukhumvit Hotel" />
 
   <TextView
-    android:id="@+id/take_survey_btn"
+    android:id="@+id/takeSurveyBtn"
+    style="@style/Button"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/bottom_margin"
-    android:background="@drawable/rounded_btn"
-    android:paddingStart="@dimen/big_padding"
-    android:paddingTop="@dimen/normal_padding"
-    android:paddingEnd="@dimen/big_padding"
-    android:paddingBottom="@dimen/normal_padding"
     android:text="@string/take_the_survey"
-    android:textColor="@color/white"
-    android:textSize="@dimen/desc_text_size"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent" />
