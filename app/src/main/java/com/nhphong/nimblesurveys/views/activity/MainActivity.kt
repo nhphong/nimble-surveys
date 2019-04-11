@@ -23,7 +23,6 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
-import kotlinx.android.synthetic.main.activity_main.message_text_view as messageTextView
 import kotlinx.android.synthetic.main.activity_main.view_pager as viewPager
 import kotlinx.android.synthetic.main.toolbar.reload_button as reloadButton
 import kotlinx.android.synthetic.main.toolbar.toolbar_title as toolbarTitle
@@ -57,7 +56,7 @@ class MainActivity : AppCompatActivity(), SurveyItemNavigator, HasSupportFragmen
       })
 
       message.observe(this@MainActivity, Observer {
-        messageTextView.text = it
+        this@MainActivity.message.text = it
       })
 
       snackBarMessage.observe(this@MainActivity, EventObserver {
