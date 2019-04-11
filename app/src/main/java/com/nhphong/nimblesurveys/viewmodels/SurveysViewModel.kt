@@ -62,6 +62,7 @@ class SurveysViewModelImpl @Inject constructor(
   }
 
   override fun onCleared() {
+    super.onCleared()
     disposables.clear()
   }
 
