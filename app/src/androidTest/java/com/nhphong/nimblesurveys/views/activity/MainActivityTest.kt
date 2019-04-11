@@ -108,14 +108,14 @@ class MainActivityTest {
 
     onView(
       allOf(
-        withId(R.id.reloadButton),
+        withId(R.id.reloadBtn),
         withParent(withId(R.id.toolbar))
       )
     ).check(matches(isDisplayed()))
 
     onView(
       allOf(
-        withId(R.id.menuButton),
+        withId(R.id.menuBtn),
         withParent(withId(R.id.toolbar))
       )
     ).check(matches(isDisplayed()))
@@ -176,7 +176,7 @@ class MainActivityTest {
   fun clickOnReloadButton() {
     onView(
       allOf(
-        withId(R.id.reloadButton),
+        withId(R.id.reloadBtn),
         withParent(withId(R.id.toolbar))
       )
     ).perform(click())

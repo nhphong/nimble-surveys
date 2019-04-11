@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity(), SurveyItemNavigator, HasSupportFragmen
     setSupportActionBar(toolbar as Toolbar)
     supportActionBar?.setDisplayShowTitleEnabled(false)
     toolbarTitle.text = getString(R.string.surveys_title)
-    reloadButton.setOnClickListener { surveysViewModel.reloadSurveys() }
+    reloadBtn.setOnClickListener { surveysViewModel.reloadSurveys() }
   }
 
   override fun openSurveyDetails(surveyId: String) {

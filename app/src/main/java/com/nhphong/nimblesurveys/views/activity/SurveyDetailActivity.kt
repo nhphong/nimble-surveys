@@ -27,8 +27,8 @@ class SurveyDetailActivity : AppCompatActivity() {
       it.setDisplayShowTitleEnabled(false)
     }
     toolbarTitle.text = getString(R.string.survey_details_title)
-    reloadButton.visibility = GONE
-    menuButton.visibility = GONE
+    reloadBtn.visibility = GONE
+    menuBtn.visibility = GONE
   }
 
   override fun onOptionsItemSelected(item: MenuItem?): Boolean {
