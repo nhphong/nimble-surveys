@@ -9,6 +9,7 @@ import com.nhphong.nimblesurveys.utils.StringResProvider
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -64,6 +65,7 @@ class SurveysViewModelImplTest {
     verify(surveysRepository).loadSurveysFromDB()
     verify(surveysRepository).fetchSurveysFromApi()
     verify(surveysRepository).saveSurveysToDB(surveysFromApi)
+    assertEquals(3, viewModel.disposables.size())
 
     surveyObserver
       .assertHistorySize(2)
@@ -86,6 +88,7 @@ class SurveysViewModelImplTest {
     verify(surveysRepository).loadSurveysFromDB()
     verify(surveysRepository).fetchSurveysFromApi()
     verify(surveysRepository).saveSurveysToDB(surveysFromApi)
+    assertEquals(3, viewModel.disposables.size())
 
     surveysObserver
       .assertHistorySize(2)
@@ -110,6 +113,7 @@ class SurveysViewModelImplTest {
     verify(surveysRepository).loadSurveysFromDB()
     verify(surveysRepository).fetchSurveysFromApi()
     verifyNoMoreInteractions(surveysRepository) // No database caching was performed
+    assertEquals(2, viewModel.disposables.size())
 
     surveysObserver
       .assertHistorySize(1)
@@ -139,6 +143,7 @@ class SurveysViewModelImplTest {
     verify(surveysRepository).loadSurveysFromDB()
     verify(surveysRepository).fetchSurveysFromApi()
     verify(surveysRepository).saveSurveysToDB(surveysFromApi)
+    assertEquals(3, viewModel.disposables.size())
 
     surveysObserver
       .assertHistorySize(1)
@@ -166,6 +171,7 @@ class SurveysViewModelImplTest {
     verify(surveysRepository).loadSurveysFromDB()
     verify(surveysRepository).fetchSurveysFromApi()
     verify(surveysRepository).saveSurveysToDB(emptyList())
+    assertEquals(3, viewModel.disposables.size())
 
     surveysObserver
       .assertHistorySize(2)
@@ -190,6 +196,7 @@ class SurveysViewModelImplTest {
     verify(surveysRepository).loadSurveysFromDB()
     verify(surveysRepository).fetchSurveysFromApi()
     verify(surveysRepository).saveSurveysToDB(surveysFromApi)
+    assertEquals(3, viewModel.disposables.size())
 
     surveysObserver
       .assertHistorySize(2)
@@ -214,6 +221,7 @@ class SurveysViewModelImplTest {
     viewModel.reloadSurveys()
     verify(surveysRepository).fetchSurveysFromApi()
     verify(surveysRepository).saveSurveysToDB(surveysFromApi)
+    assertEquals(2, viewModel.disposables.size())
 
     snackBarMessageObserver
       .assertValue {
