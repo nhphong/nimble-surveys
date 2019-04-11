@@ -19,7 +19,7 @@
 
   <TextView
     android:id="@+id/name"
-    style="@style/WhiteTitleTextView"
+    style="@style/Title.White"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     app:layout_constraintEnd_toEndOf="parent"
@@ -29,7 +29,7 @@
 
   <TextView
     android:id="@+id/description"
-    style="@style/DescriptionTextView"
+    style="@style/Description"
     android:layout_width="0dp"
     android:layout_height="0dp"
     app:layout_constraintBottom_toTopOf="@id/take_survey_btn"
