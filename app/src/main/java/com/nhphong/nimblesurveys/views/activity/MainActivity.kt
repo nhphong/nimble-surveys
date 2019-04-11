@@ -22,10 +22,8 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
-import kotlinx.android.synthetic.main.activity_main.view_pager as viewPager
-import kotlinx.android.synthetic.main.toolbar.reload_button as reloadButton
-import kotlinx.android.synthetic.main.toolbar.toolbar_title as toolbarTitle
 
 class MainActivity : AppCompatActivity(), SurveyItemNavigator, HasSupportFragmentInjector {
 

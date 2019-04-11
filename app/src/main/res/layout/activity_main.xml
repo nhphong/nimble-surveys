@@ -27,7 +27,7 @@
     tools:text="@string/no_surveys" />
 
   <com.nhphong.nimblesurveys.views.customview.VerticalViewPager
-    android:id="@+id/view_pager"
+    android:id="@+id/viewPager"
     android:layout_width="0dp"
     android:layout_height="0dp"
     app:layout_constraintBottom_toBottomOf="parent"

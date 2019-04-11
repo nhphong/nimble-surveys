@@ -1,6 +1,5 @@
 package com.nhphong.nimblesurveys.views.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
@@ -14,8 +13,6 @@ import com.nhphong.nimblesurveys.viewmodels.SurveysViewModel
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_survey.view.*
 import javax.inject.Inject
-import kotlinx.android.synthetic.main.fragment_survey.view.cover_image as coverImage
-import kotlinx.android.synthetic.main.fragment_survey.view.take_survey_btn as takeSurveyBtn
 
 class SurveyFragment : Fragment(), View.OnClickListener {
 
