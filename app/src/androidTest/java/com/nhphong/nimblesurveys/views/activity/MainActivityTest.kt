@@ -230,17 +230,6 @@ class MainActivityTest {
     rule.activity.requestedOrientation = SCREEN_ORIENTATION_PORTRAIT
   }
 
-  @Test
-  fun onDestroy() {
-    rule.runOnUiThread {
-      rule.activity.finish()
-    }
-    waitUntil("ViewModel is invoked", Callable {
-      verify(viewModel).dispose()
-      true
-    }, 1000)
-  }
-
   private companion object TestData {
     val surveysTestData = listOf(
       Survey(

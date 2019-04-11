@@ -25,7 +25,6 @@ abstract class SurveysViewModel : ViewModel() {
   abstract fun openSurvey(surveyId: String)
   abstract fun loadSurveys()
   abstract fun reloadSurveys()
-  abstract fun dispose()
 
   @VisibleForTesting
   abstract val disposables: CompositeDisposable
@@ -62,7 +61,7 @@ class SurveysViewModelImpl @Inject constructor(
     fetchSurveysFromRemoteServer()
   }
 
-  override fun dispose() {
+  override fun onCleared() {
     disposables.clear()
   }
 

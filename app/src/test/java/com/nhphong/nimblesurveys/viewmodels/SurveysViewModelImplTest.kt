@@ -236,14 +236,6 @@ class SurveysViewModelImplTest {
       .assertValue(surveysFromApi)
   }
 
-  @Test
-  fun dispose() {
-    viewModel.reloadSurveys()
-    assertEquals(2, viewModel.disposables.size())
-    viewModel.dispose()
-    assertEquals(0, viewModel.disposables.size())
-  }
-
   private companion object TestData {
     val surveysFromDb = List(2) { Survey() }
     val surveysFromApi = List(3) { Survey() }
