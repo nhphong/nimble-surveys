@@ -26,12 +26,9 @@ class SurveyFragment : Fragment(), View.OnClickListener {
   private val _survey: Survey?
     get() = arguments?.getParcelable(EXTRA_ARG_SURVEY)
 
-  override fun onAttach(context: Context) {
-    super.onAttach(context)
-    AndroidSupportInjection.inject(this)
-  }
-
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    AndroidSupportInjection.inject(this)
+
     if (_view == null) {
       _view = inflater.inflate(R.layout.fragment_survey, container, false).apply {
         description.movementMethod = ScrollingMovementMethod()

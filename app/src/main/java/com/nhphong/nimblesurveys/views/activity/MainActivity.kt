@@ -53,6 +53,11 @@ class MainActivity : AppCompatActivity(), SurveyItemNavigator, HasSupportFragmen
     with(surveysViewModel) {
       surveys.observe(this@MainActivity, Observer {
         pagerAdapter.surveys = it
+        val previousPage = savedInstanceState?.getInt(EXTRA_CURRENT_PAGE, -1) ?: -1
+        if (previousPage != -1) {
+          viewPager.currentItem = previousPage
+          savedInstanceState?.clear()
+        }
       })
 
       message.observe(this@MainActivity, Observer {
@@ -75,6 +80,11 @@ class MainActivity : AppCompatActivity(), SurveyItemNavigator, HasSupportFragmen
     }
   }
 
+  override fun onSaveInstanceState(outState: Bundle) {
+    super.onSaveInstanceState(outState)
+    outState.putInt(EXTRA_CURRENT_PAGE, viewPager.currentItem)
+  }
+
   private fun setupActionBar() {
     setSupportActionBar(toolbar as Toolbar)
     supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -93,5 +103,9 @@ class MainActivity : AppCompatActivity(), SurveyItemNavigator, HasSupportFragmen
       return dispatchingAndroidInjector
     }
     return AndroidInjector { }
+  }
+
+  private companion object {
+    const val EXTRA_CURRENT_PAGE = "current page"
   }
 }
