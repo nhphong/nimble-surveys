@@ -57,7 +57,7 @@ class MainActivityTest {
 
   @Test
   fun displaySurveysProperly() {
-    val viewPager = viewPagerWithId(R.id.view_pager)
+    val viewPager = viewPagerWithId(R.id.viewPager)
     val currentPage = allOf(withParent(viewPager), isDisplayed())
 
     onView(
@@ -78,7 +78,7 @@ class MainActivityTest {
     onView(
       allOf(
         withParent(currentPage),
-        withId(R.id.take_survey_btn)
+        withId(R.id.takeSurveyBtn)
       )
     ).check(matches(withText("Take the survey")))
 
@@ -108,14 +108,14 @@ class MainActivityTest {
 
     onView(
       allOf(
-        withId(R.id.reload_button),
+        withId(R.id.reloadButton),
         withParent(withId(R.id.toolbar))
       )
     ).check(matches(isDisplayed()))
 
     onView(
       allOf(
-        withId(R.id.menu_button),
+        withId(R.id.menuButton),
         withParent(withId(R.id.toolbar))
       )
     ).check(matches(isDisplayed()))
@@ -136,7 +136,7 @@ class MainActivityTest {
       .check(matches(not(isSelected())))
 
     // Scroll to the third page
-    onView(viewPagerWithId(R.id.view_pager)).perform(customSwipeUp(), customSwipeUp())
+    onView(viewPagerWithId(R.id.viewPager)).perform(customSwipeUp(), customSwipeUp())
     waitUntil("the page finished scrolling", Callable {
       onView(withText("Grab")).check(matches(isDisplayed()))
       true
@@ -176,7 +176,7 @@ class MainActivityTest {
   fun clickOnReloadButton() {
     onView(
       allOf(
-        withId(R.id.reload_button),
+        withId(R.id.reloadButton),
         withParent(withId(R.id.toolbar))
       )
     ).perform(click())
@@ -186,7 +186,7 @@ class MainActivityTest {
 
   @Test
   fun clickOnTakeTheSurveyButton() {
-    onView(viewPagerWithId(R.id.view_pager)).perform(customSwipeUp())
+    onView(viewPagerWithId(R.id.viewPager)).perform(customSwipeUp())
     openSurveyEvent.postValue(Event("2"))
     Intents.intended(
       allOf(
@@ -200,7 +200,7 @@ class MainActivityTest {
   @Test
   fun orientationChanges() {
     val bullets = recyclerViewWithId(R.id.bullets)
-    onView(viewPagerWithId(R.id.view_pager)).perform(customSwipeUp())
+    onView(viewPagerWithId(R.id.viewPager)).perform(customSwipeUp())
 
     waitUntil("the page finished scrolling", Callable {
       // Second bullet is now selected
@@ -228,6 +228,17 @@ class MainActivityTest {
 
     // Restore the orientation
     rule.activity.requestedOrientation = SCREEN_ORIENTATION_PORTRAIT
+  }
+
+  @Test
+  fun onDestroy() {
+    rule.runOnUiThread {
+      rule.activity.finish()
+    }
+    waitUntil("ViewModel is invoked", Callable {
+      verify(viewModel).dispose()
+      true
+    }, 1000)
   }
 
   private companion object TestData {

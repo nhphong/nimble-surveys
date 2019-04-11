@@ -96,6 +96,11 @@ class MainActivity : AppCompatActivity(), SurveyItemNavigator, HasSupportFragmen
     })
   }
 
+  override fun onDestroy() {
+    surveysViewModel.dispose()
+    super.onDestroy()
+  }
+
   override fun supportFragmentInjector(): AndroidInjector<Fragment> {
     if (::dispatchingAndroidInjector.isInitialized) {
       return dispatchingAndroidInjector

@@ -1,5 +1,6 @@
 package com.nhphong.nimblesurveys.viewmodels
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,7 @@ import com.nhphong.nimblesurveys.utils.Event
 import com.nhphong.nimblesurveys.utils.StringResProvider
 import com.nhphong.nimblesurveys.utils.fullMessage
 import io.reactivex.Scheduler
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 abstract class SurveysViewModel : ViewModel() {
@@ -23,6 +25,10 @@ abstract class SurveysViewModel : ViewModel() {
   abstract fun openSurvey(surveyId: String)
   abstract fun loadSurveys()
   abstract fun reloadSurveys()
+  abstract fun dispose()
+
+  @VisibleForTesting
+  abstract val disposables: CompositeDisposable
 }
 
 class SurveysViewModelImpl @Inject constructor(
@@ -37,6 +43,7 @@ class SurveysViewModelImpl @Inject constructor(
   override val snackBarMessage = MutableLiveData<Event<String>>()
   override val internalErrorMessage = MutableLiveData<Event<String>>()
   override val openSurveyEvent = MutableLiveData<Event<String>>()
+  override val disposables = CompositeDisposable()
 
   override fun openSurvey(surveyId: String) {
     openSurveyEvent.value = Event(surveyId)
@@ -55,6 +62,10 @@ class SurveysViewModelImpl @Inject constructor(
     fetchSurveysFromRemoteServer()
   }
 
+  override fun dispose() {
+    disposables.clear()
+  }
+
   private fun loadSurveysFromDB() {
     surveysRepository.loadSurveysFromDB()
       .subscribeOn(ioScheduler)
@@ -65,9 +76,7 @@ class SurveysViewModelImpl @Inject constructor(
         snackBarMessage.value = Event(it.fullMessage())
       })
       .let {
-        // Ignored
-        // We don't need to manually unsubscribe this observer,
-        // since the observer only modifies the LiveData, which already takes the Activity's life cycle into account
+        disposables.add(it)
       }
   }
 
@@ -88,9 +97,7 @@ class SurveysViewModelImpl @Inject constructor(
         snackBarMessage.value = Event(it.fullMessage())
       })
       .let {
-        // Ignored
-        // We don't need to manually unsubscribe this observer,
-        // since the observer only modifies the LiveData, which already takes the Activity's life cycle into account
+        disposables.add(it)
       }
   }
 
@@ -104,7 +111,7 @@ class SurveysViewModelImpl @Inject constructor(
         internalErrorMessage.value = Event(err.fullMessage())
       })
       .let {
-        // Ignored
+        disposables.add(it)
       }
   }
 }
