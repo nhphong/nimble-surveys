@@ -38,7 +38,7 @@
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/bullets"
     android:layout_width="wrap_content"
-    android:layout_height="0dp"
+    android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/bullets_top_margin"
     android:layout_marginEnd="@dimen/xsmall_margin"
     android:layout_marginBottom="@dimen/bullets_bottom_margin"
