@@ -1,5 +1,6 @@
 package com.nhphong.nimblesurveys.views.adapter
 
+import android.database.DataSetObserver
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,10 +31,13 @@ class BulletsAdapter : RecyclerView.Adapter<BulletsAdapter.BulletHolder>() {
   }
 
   fun syncWithViewPager(viewPager: ViewPager, bulletsView: RecyclerView) {
-    (viewPager.adapter as? MainPagerAdapter)?.run {
-      dataSetChangedListener = {
-        setBullets(count, viewPager.currentItem, bulletsView)
-      }
+    viewPager.adapter?.run {
+      registerDataSetObserver(object : DataSetObserver() {
+        override fun onChanged() {
+          super.onChanged()
+          setBullets(count, viewPager.currentItem, bulletsView)
+        }
+      })
 
       viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
         override fun onPageSelected(position: Int) {
